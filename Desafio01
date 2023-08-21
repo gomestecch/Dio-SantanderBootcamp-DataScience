@@ -1,0 +1,40 @@
+#Notebook criado via Google Colab com o código-fonte desenvolvido neste Desafio de Projeto
+
+# Importa as bibliotecas necessárias
+import pandas as pd
+import urllib.parse
+
+# Lê os dados da planilha
+data = pd.read_excel('AutoWhats.xlsx')
+
+# Cria um dicionário vazio para armazenar os links gerados
+links = {}
+
+# Itera sobre as linhas da planilha
+for index, row in data.iterrows():
+    # Obtém os valores das células
+    val1 = row[0]
+    val2 = row[1]
+    val3 = row[2]
+    val4 = row[3]
+    val5 = row[4]
+    val6 = row[5]
+    val7 = row[6]
+
+    # Composição da mensagem personalizada
+    message = val4.format(val2=val2, val3=val3, val5=val5, val6=val6, val7=val7)
+    
+    # Codifica a mensagem para ser usada em um URL
+    message_encoded = urllib.parse.quote(message)
+
+    # Composição do link para o WhatsApp
+    whatsapp_url = f'https://wa.me/{val1}?text={message_encoded}'
+
+    # Adiciona o link gerado ao dicionário de links
+    links[val2] = {'link': whatsapp_url, 'template': val7}
+
+# Exibe o dicionário de links gerados
+for name, data in links.items():
+    print(f'Nome: {name}')
+    print(f'Template: {data["template"]}')
+    print(f'Link: {data["link"]}\n')
